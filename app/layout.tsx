@@ -17,6 +17,12 @@ export const metadata: Metadata = {
   title: "gymbruh — AI Gym Companion",
   description:
     "Your AI gym companion. Describe sessions in natural language. Mistral AI builds your workout. KPIs, hypothetical PRs, compare with friends—all voice-first.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "gymbruh",
+  },
+  themeColor: "#22c55e",
 };
 
 export default function RootLayout({

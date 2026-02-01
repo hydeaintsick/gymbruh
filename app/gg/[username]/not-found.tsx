@@ -8,7 +8,8 @@ export default function GGNotFound() {
       <Lock className="h-16 w-16 text-muted-foreground mb-4" />
       <h1 className="text-2xl font-bold mb-2">Profil non trouvé ou privé</h1>
       <p className="text-muted-foreground text-center mb-6 max-w-sm">
-        Cette page n&apos;existe pas ou le propriétaire a choisi de la garder privée.
+        Cette page n&apos;existe pas ou le propriétaire a choisi de la garder
+        privée.
       </p>
       <Link href="/">
         <Button variant="outline" className="gap-2">

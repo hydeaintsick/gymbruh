@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Plus, Calendar, Dumbbell, Pencil, Trash2 } from "lucide-react";
+import { InstallPWA } from "@/components/dashboard/install-pwa";
 import { format } from "date-fns";
 
 const LONG_PRESS_MS = 500;
@@ -124,6 +125,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-8">
+      <InstallPWA />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>

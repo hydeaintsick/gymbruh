@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Select } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { WorkoutRecorder } from "@/components/dashboard/workout-recorder";
 import { Plus, Save, Trash2, ArrowLeft } from "lucide-react";
@@ -40,12 +41,22 @@ export default function EditSessionPage() {
   const [isProcessing, setIsProcessing] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
   const [saveError, setSaveError] = React.useState<string | null>(null);
+  const [exercises, setExercises] = React.useState<
+    { id: string; name: string }[]
+  >([]);
 
   React.useEffect(() => {
     if (sessionId) {
       fetchSession();
     }
   }, [sessionId]);
+
+  React.useEffect(() => {
+    fetch("/api/exercises")
+      .then((res) => res.ok && res.json())
+      .then((data) => Array.isArray(data) && setExercises(data))
+      .catch(() => {});
+  }, []);
 
   const fetchSession = async () => {
     try {
@@ -106,6 +117,18 @@ export default function EditSessionPage() {
     );
     setSets(updatedSets);
   };
+
+  const exerciseOptions = React.useMemo(() => {
+    const ids = new Set(exercises.map((e) => e.id));
+    const list = [...exercises];
+    sets.forEach((s) => {
+      if (!ids.has(s.exerciseId)) {
+        ids.add(s.exerciseId);
+        list.push({ id: s.exerciseId, name: s.exerciseName });
+      }
+    });
+    return list;
+  }, [exercises, sets]);
 
   const removeSet = async (id: string) => {
     const updatedSets = sets.filter((s) => s.id !== id);
@@ -292,7 +315,40 @@ export default function EditSessionPage() {
                     className="flex items-center gap-4 p-4 border rounded-lg"
                   >
                     <div className="flex-1">
-                      <h3 className="font-semibold">{set.exerciseName}</h3>
+                      <Label
+                        htmlFor={`exercise-${set.id}`}
+                        className="text-xs text-muted-foreground"
+                      >
+                        Exercice (cliquez pour modifier si l&apos;IA s&apos;est
+                        trompée)
+                      </Label>
+                      {exerciseOptions.length > 0 ? (
+                        <Select
+                          id={`exercise-${set.id}`}
+                          value={set.exerciseId}
+                          onChange={(e) => {
+                            const ex = exerciseOptions.find(
+                              (x) => x.id === e.target.value
+                            );
+                            if (ex)
+                              updateSet(set.id, {
+                                exerciseId: ex.id,
+                                exerciseName: ex.name,
+                              });
+                          }}
+                          className="mt-1 font-semibold w-full max-w-sm"
+                        >
+                          {exerciseOptions.map((ex) => (
+                            <option key={ex.id} value={ex.id}>
+                              {ex.name}
+                            </option>
+                          ))}
+                        </Select>
+                      ) : (
+                        <p className="mt-1 font-semibold">
+                          {set.exerciseName}
+                        </p>
+                      )}
                       <div className="flex items-center gap-4 mt-2">
                         <div className="flex items-center gap-2">
                           <Label htmlFor={`reps-${set.id}`} className="text-sm">

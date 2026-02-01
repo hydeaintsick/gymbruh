@@ -27,7 +27,10 @@ export async function GET() {
     });
 
     if (!user) {
-      return NextResponse.json({ error: "Utilisateur non trouvé" }, { status: 404 });
+      return NextResponse.json(
+        { error: "Utilisateur non trouvé" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
@@ -56,7 +59,8 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const validated = updateProfileSchema.parse(body);
 
-    const updateData: { profilePublic?: boolean; prExerciseIds?: string[] } = {};
+    const updateData: { profilePublic?: boolean; prExerciseIds?: string[] } =
+      {};
     if (validated.profilePublic !== undefined) {
       updateData.profilePublic = validated.profilePublic;
     }

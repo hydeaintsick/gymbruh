@@ -29,6 +29,15 @@ To learn more about Next.js, take a look at the following resources:
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## PWA (Progressive Web App)
+
+L'app peut être installée sur mobile depuis le dashboard. Pour des icônes personnalisées sur l'écran d'accueil, ajoute dans `public/` :
+
+- `icon-192.png` (192×192 px)
+- `icon-512.png` (512×512 px)
+
+Tu peux les générer à partir du favicon avec [RealFaviconGenerator](https://realfavicongenerator.net/) ou [PWA Builder Image Generator](https://www.pwabuilder.com/imageGenerator).
+
 ## Deploy on Vercel
 
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
